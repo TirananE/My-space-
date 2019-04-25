@@ -24,13 +24,13 @@ class SpaceGameWindow(arcade.Window):
  
         arcade.set_background_color(arcade.color.BLACK)
 
-        # self.me_sprite = arcade.Sprite('enemy4.png')
-
-        self.background = arcade.Sprite('space5.png')
+        self.background = arcade.Sprite('space5-crop.png')
+        #frame = 28 pixel
         self.background.set_position(350,350)
 
         self.world = World(width,height)
-        self.me_sprite = ModelSprite('enemy4.png',model=self.world.me)
+        self.me_sprite = ModelSprite('enemy41.png',model=self.world.me)
+        self.food_sprite = ModelSprite('food1.png',model=self.world.food )
 
     def on_key_press(self, key, key_modifiers):
         self.world.on_key_press(key, key_modifiers)
@@ -39,6 +39,7 @@ class SpaceGameWindow(arcade.Window):
         arcade.start_render()
         self.background.draw()
         self.me_sprite.draw()
+        self.food_sprite.draw()
 
     def update(self, delta):
         self.world.update(delta)

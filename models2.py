@@ -1,16 +1,28 @@
 import arcade.key
+from random import randint
 
 DIR_UP = 1
 DIR_RIGHT = 2
 DIR_DOWN = 3
 DIR_LEFT = 4
- 
-DIR_OFFSET = { DIR_UP: (0,1),
-               DIR_RIGHT: (1,0),
-               DIR_DOWN: (0,-1),
-               DIR_LEFT: (-1,0) }
 
-class Me:
+VELOCITY = 3.5
+DIR_OFFSET = { DIR_UP: (0,VELOCITY),
+               DIR_RIGHT: (VELOCITY,0),
+               DIR_DOWN: (0,-VELOCITY),
+               DIR_LEFT: (-VELOCITY,0) }
+
+class Model:
+    def __init__(self, world, x, y, angle):
+        self.world = world
+        self.x = x
+        self.y = y
+        self.angle = 0
+
+    def hit(self, other, hit_size):
+        return (abs(self.x - other.x) <= hit_size) and (abs(self.y - other.y) <= hit_size)
+
+class Me(Model):
 
     DIR_HORIZONTAL = 0
     DIR_VERTICAL = 1
@@ -34,6 +46,14 @@ class Me:
         self.x += DIR_OFFSET[self.direction][0]
         self.y += DIR_OFFSET[self.direction][1]
 
+class Food(Model):
+    def __init__(self, world, x, y):
+        super().__init__(world, x, y, 0)
+
+    def random_location(self):
+        self.x = randint(0, self.world.width - 1)
+        self.y = randint(0, self.world.height - 1)
+
 class World:
 
     def __init__(self, width, height):
@@ -41,6 +61,7 @@ class World:
         self.height = height
 
         self.me = Me(self,350,350)
+        self.food = Food(self, 400, 400)
 
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.RIGHT:
@@ -54,5 +75,7 @@ class World:
 
     def update(self, delta):
         self.me.update(delta)
+        if self.food.hit(self.food, 10):
+            self.food.random_location()
 
         
