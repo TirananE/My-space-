@@ -33,13 +33,16 @@ class SpaceGameWindow(arcade.Window):
         self.food_sprite = ModelSprite('food1.png',model=self.world.food )
 
     def on_key_press(self, key, key_modifiers):
+        if not self.world.is_started():
+             self.world.start()
         self.world.on_key_press(key, key_modifiers)
+        
 
     def on_draw(self):
         arcade.start_render()
         self.background.draw()
-        self.me_sprite.draw()
         self.food_sprite.draw()
+        self.me_sprite.draw()
 
     def update(self, delta):
         self.world.update(delta)
