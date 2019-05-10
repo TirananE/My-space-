@@ -1,5 +1,4 @@
 import arcade
-import arcade.key
 from models2 import World , Me
  
 SCREEN_WIDTH = 700
@@ -34,16 +33,12 @@ class SpaceGameWindow(arcade.Window):
         self.me_sprite = ModelSprite('enemy41.png',model=self.world.me)
         self.food_sprite = ModelSprite('food1.png',model=self.world.food )
         self.enemy_sprite = ModelSprite('enemy_angryface11.png',model=self.world.enemy)
-        self.enemy_sprite.set_position(200,200)
-
         self.enemy2_sprite = ModelSprite('enemy_yellow2.png',model=self.world.enemy2)
-        self.enemy2_sprite.set_position(200,200)
 
 
 
         self.game_over = ModelSprite('game over1.png')
         self.game_over.set_position(350,350)
-
 
 
     def on_key_press(self, key, key_modifiers):
@@ -66,10 +61,10 @@ class SpaceGameWindow(arcade.Window):
         arcade.draw_text(str(self.world.show_score) , self.width - 180, self.height - 80,
                             arcade.color.BLACK, 20)
 
-        if self.world.score >= 0 :
+        if self.world.score >= 100 :
             self.enemy_sprite.draw()
 
-        if self.world.score >= 0 :
+        if self.world.score >= 150 :
             self.enemy2_sprite.draw()
 
 

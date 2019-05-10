@@ -18,12 +18,13 @@ class Model:
         self.world = world
         self.x = x
         self.y = y
+        self.angle = 0
 
     def hit(self, other, hit_size):
         return (abs(self.x - other.x) <= hit_size) and (abs(self.y - other.y) <= hit_size)
 
 
-class Me:
+class Me(Model):
 
     DIR_HORIZONTAL = 0
     DIR_VERTICAL = 1
@@ -35,9 +36,10 @@ class Me:
         self.y = y
         self.direction = Me.DIR_VERTICAL
         self.has_eaten = False
+        self.hit_enemy_status = False
 
     def can_eat(self, food):
-        if food.x - 30 <= self.x <= food.x + 30 and food.y - 30 <= self.y <= food.y + 30:
+        if food.x - 42 <= self.x <= food.x + 42 and food.y - 30 <= self.y <= food.y + 30:
             return True
         return False
 
@@ -78,14 +80,13 @@ class Enemy:
             self.vy = -self.vy
 
 class Enemy2:
- 
     def __init__(self,world,x,y):
         self.world = world
         self.x = x
         self.y = y
-        self.vx = 7
-        self.vy = 10
- 
+        self.vx = 6
+        self.vy = 7
+
  
     def update(self, delta):
 
@@ -127,7 +128,7 @@ class World:
         self.food.random_location()
         self.state = World.STATE_FROZEN
         self.enemy = Enemy(self,200,200)
-        self.enemy2 = Enemy2(self,200,200)
+        self.enemy2 = Enemy2(self,600,420)
 
         self.score = 0
         self.show_score = f'SCORE: {self.score}'
@@ -177,6 +178,12 @@ class World:
             self.me.has_eaten = True
             self.score += 10
             self.show_score = f'SCORE: {self.score}'
+
+        if self.score >= 100 and self.me.hit(self.enemy, 60):
+            self.die()
+
+        if self.score >= 150 and self.me.hit(self.enemy2, 60):
+            self.die()
 
         self.enemy.update(delta)
         self.enemy2.update(delta)
