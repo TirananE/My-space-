@@ -28,7 +28,7 @@ class Me(Model):
 
     DIR_HORIZONTAL = 0
     DIR_VERTICAL = 1
-    BLOCK_SIZE = 10
+    BLOCK_SIZE = 15
 
     def __init__(self,world,x,y):
         self.world = world
@@ -179,10 +179,10 @@ class World:
             self.score += 10
             self.show_score = f'SCORE: {self.score}'
 
-        if self.score >= 100 and self.me.hit(self.enemy, 60):
+        if self.score >= 70 and self.me.hit(self.enemy, 60):
             self.die()
 
-        if self.score >= 150 and self.me.hit(self.enemy2, 60):
+        if self.score >= 130 and self.me.hit(self.enemy2, 60):
             self.die()
 
         self.enemy.update(delta)
